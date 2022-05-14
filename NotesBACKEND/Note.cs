@@ -20,4 +20,19 @@ public class Note
              "Title:" + title + "\n" +
              "Conntent" + content;
    }
+
+   public String getContent()
+   {
+      return content;
+   }
+
+   public String getTitle()
+   {
+      return title;
+   }
+
+   public int getId()
+   {
+      return id;
+   }
 }

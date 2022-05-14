@@ -8,4 +8,6 @@ public interface SQLCustomHandlerInterface<T>
    
    public List<T> getEntries();
 
+   public void insertEntry(T cont);
+
 }

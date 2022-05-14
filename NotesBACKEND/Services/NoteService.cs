@@ -21,4 +21,9 @@ public class NoteService
    {
       return _sqlCustomHandler.getEntries();
    }
+
+   public void insertNote(Note note)
+   {
+        _sqlCustomHandler.insertEntry(note); 
+   }
 }

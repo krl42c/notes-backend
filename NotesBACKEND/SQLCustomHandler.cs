@@ -1,6 +1,9 @@
-﻿using MySql.Data.MySqlClient;
+﻿using System.Net.Mime;
+using MySql.Data.MySqlClient;
 
 namespace NotesBACKEND;
+
+
 
 public class SQLCustomHandler : SQLCustomHandlerInterface<Note>
 {
@@ -8,7 +11,7 @@ public class SQLCustomHandler : SQLCustomHandlerInterface<Note>
    
    public SQLCustomHandler()
    {
-      string connString = "CONNSTRING HARDCODED FOR NOW";
+      string connString = "CONN STRING"; //server=localhost;user=root;database=notesapp;port=3306;password=*******
       mySqlConnection = new MySqlConnection(connString);
    }
    
@@ -49,4 +52,19 @@ public class SQLCustomHandler : SQLCustomHandlerInterface<Note>
       mySqlConnection.Close();
       return noteList; 
    }
+
+   public void insertEntry(Note cont)
+   {
+      mySqlConnection.Open();
+      string query = "insert into notes(id,title,content) values (@id, @title, @content)";
+      
+      MySqlCommand cmd = new MySqlCommand(query, mySqlConnection);
+
+      cmd.Parameters.AddWithValue("@id",cont.getId());
+      cmd.Parameters.AddWithValue("@title", cont.getTitle());
+      cmd.Parameters.AddWithValue("@content", cont.getContent());
+      
+      cmd.ExecuteNonQuery();
+   }
+
 }

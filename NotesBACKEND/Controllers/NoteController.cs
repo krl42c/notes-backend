@@ -26,11 +26,19 @@ public class NoteController
     }
   
     [HttpGet("getAllNotes")]
-    public String getAllNotes()
+    public List<Note> getAllNotes()
     {
-        return "wip";
+        return _noteService.getAllNotes();
     }
 
+
+    [HttpPost("/note")]
+    public bool createNote(string title, string content)
+    {
+        Note note = new Note(2, title, content);
+        _noteService.insertNote(note);
+        return true;
+    }
   /*  public void deleteNote()
     {
         //TODO: implement NoteService.deleteNoteById(id)
