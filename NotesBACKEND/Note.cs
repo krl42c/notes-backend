@@ -13,4 +13,11 @@ public class Note
       this.title = title;
       this.content = content;
    }
+
+   public override string ToString()
+   {
+      return "ID: " + id + "\n" +
+             "Title:" + title + "\n" +
+             "Conntent" + content;
+   }
 }

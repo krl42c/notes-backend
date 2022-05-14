@@ -1,28 +1,37 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NotesBACKEND.Services;
 
 namespace NotesBACKEND.Controllers;
 
 [ApiController]
-[Route("/note")]
+[Route("NotesController")]
 public class NoteController
 {
     private List<Note> noteList = new List<Note>(); //will load notes here through a NoteService
+    private NoteService _noteService = new NoteService();
 
     // This method gets a note from NoteService
-    [HttpGet(Name = "GetNote")]
+    [HttpGet("/note/{id}")]
     public String getNote(int id)
     {
-        //TODO: implement NoteService.getNoteById(id)
-        return null;
+        //TODO: implement custom exception handler
+        try
+        {
+            return _noteService.getNoteById(id).ToString();
+        }
+        catch (NullReferenceException e)
+        {
+            return "Note not found";
+        }
     }
-   
-    public List<Note> getAllNotes()
+  
+    [HttpGet("getAllNotes")]
+    public String getAllNotes()
     {
-        //Returning object for now, will see later if changes are needed
-        return noteList;
+        return "wip";
     }
 
-    public void deleteNote(int id)
+  /*  public void deleteNote()
     {
         //TODO: implement NoteService.deleteNoteById(id)
     }
@@ -31,7 +40,7 @@ public class NoteController
     {
         //TODO: implement NoteService.updateNoteById(id, ?content, ?title)
         
-    }
+    }*/
     
 }
 
