@@ -26,4 +26,14 @@ public class NoteService
    {
         _sqlCustomHandler.insertEntry(note); 
    }
+
+   public void deleteNote(Note note)
+   {
+     _sqlCustomHandler.deleteEntry(note); 
+   }
+
+   public void deleteNote(int id)
+   {
+      _sqlCustomHandler.deleteEntry(id);
+   }
 }

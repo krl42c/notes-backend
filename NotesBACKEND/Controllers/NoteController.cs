@@ -39,17 +39,19 @@ public class NoteController
         _noteService.insertNote(note);
         return true;
     }
-  /*  public void deleteNote()
+    
+    [HttpPost("/delete")]
+    public void deleteNote(int id)
     {
-        //TODO: implement NoteService.deleteNoteById(id)
+        _noteService.deleteNote(id);
     }
-
+/*
     public void updateNote(int id, string content = null, string title = null)
     {
         //TODO: implement NoteService.updateNoteById(id, ?content, ?title)
         
-    }*/
-    
+    } 
+    */
 }
 
 

@@ -10,4 +10,6 @@ public interface SQLCustomHandlerInterface<T>
 
    public void insertEntry(T cont);
 
+   public void deleteEntry(T cont);
+
 }

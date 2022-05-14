@@ -67,4 +67,23 @@ public class SQLCustomHandler : SQLCustomHandlerInterface<Note>
       cmd.ExecuteNonQuery();
    }
 
+   public void deleteEntry(Note cont)
+   {
+      mySqlConnection.Open();
+      string query = "delete from notes where id=@id";
+      
+      MySqlCommand cmd = new MySqlCommand(query, mySqlConnection);
+      cmd.Parameters.AddWithValue("@id", cont.getId());
+      cmd.ExecuteNonQuery();
+   }
+
+   public void deleteEntry(int id)
+   {
+      mySqlConnection.Open();
+      string query = "delete from notes where id=@id";
+      
+      MySqlCommand cmd = new MySqlCommand(query, mySqlConnection);
+      cmd.Parameters.AddWithValue("@id", id);
+      cmd.ExecuteNonQuery();
+   }
 }
