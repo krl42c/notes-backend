@@ -45,4 +45,9 @@ public class NoteService
    {
       _sqlCustomHandler.updateEntryTitle(id, title);
    }
+
+   public int getUniqueID()
+   {
+      return getAllNotes().Last().getId() + 1; //Get a new id by incrementing the last one
+   }
 }

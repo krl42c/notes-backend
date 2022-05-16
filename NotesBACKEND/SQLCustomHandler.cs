@@ -11,7 +11,7 @@ public class SQLCustomHandler : SQLCustomHandlerInterface<Note>
    
    public SQLCustomHandler()
    {
-      string connString = "CONNSTRING"; //server=localhost;user=root;database=notesapp;port=3306;password=*******
+      string connString = "server=localhost;user=root;database=notesapp;port=3306;password=karolprueba"; //server=localhost;user=root;database=notesapp;port=3306;password=*******
       mySqlConnection = new MySqlConnection(connString);
    }
    

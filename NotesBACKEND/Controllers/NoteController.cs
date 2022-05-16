@@ -33,29 +33,44 @@ public class NoteController
 
 
     [HttpPost("/note")]
-    public bool createNote(string title, string content)
+    public bool createNote(int id,string title, string content)
     {
-        Note note = new Note(2, title, content);
-        _noteService.insertNote(note);
-        return true;
+        Note note = new Note(id, title, content);
+        try
+        {
+            _noteService.insertNote(note);
+            return true;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.StackTrace);
+            return false;
+        }
     }
     
     [HttpPost("/delete")]
-    public void deleteNote(int id)
+    public bool deleteNote(int id)
     {
-        _noteService.deleteNote(id);
+        try
+        {
+            _noteService.deleteNote(id);
+            return true;
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
     }
     
     [HttpPost("/update/{id}")]
     public void updateNote(int id, string? content = null, string? title = null)
     {
-        //TODO: implement NoteService.updateNoteById(id, ?content, ?title)
         if(content is null)
             _noteService.updateTitle(id, title);
         else
             _noteService.updateContent(id, content);
-        
-    } 
+    }
+
 }
 
 
