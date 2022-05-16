@@ -20,7 +20,7 @@ public class SQLCustomHandler : SQLCustomHandlerInterface<Note>
       }
       else
       {
-         throw new Exception();
+         throw new CustomException("User not found");
       }
       mySqlConnection = new MySqlConnection(connString);
    }
@@ -41,7 +41,23 @@ public class SQLCustomHandler : SQLCustomHandlerInterface<Note>
       }
       mySqlConnection.Close();
       return note;
-      
+   }
+
+   public bool noteExists(int id)
+   {
+      Note note = null;
+      mySqlConnection.Open();
+      string query = "SELECT * FROM NOTES WHERE ID=" + id;
+      MySqlCommand cmd = new MySqlCommand(query, mySqlConnection);
+
+      MySqlDataReader reader = cmd.ExecuteReader();
+      while (reader.Read())
+      {
+         mySqlConnection.Close();
+         return true;
+      }
+      mySqlConnection.Close();
+      return false;
    }
 
    public List<Note> getEntries()
@@ -75,6 +91,7 @@ public class SQLCustomHandler : SQLCustomHandlerInterface<Note>
       cmd.Parameters.AddWithValue("@content", cont.content);
       
       cmd.ExecuteNonQuery();
+      mySqlConnection.Close();
    }
 
    public void deleteEntry(Note cont)
@@ -85,6 +102,7 @@ public class SQLCustomHandler : SQLCustomHandlerInterface<Note>
       MySqlCommand cmd = new MySqlCommand(query, mySqlConnection);
       cmd.Parameters.AddWithValue("@id", cont.id);
       cmd.ExecuteNonQuery();
+      mySqlConnection.Close();
    }
 
    public void updateEntryContent(int id, string cont)
@@ -96,6 +114,7 @@ public class SQLCustomHandler : SQLCustomHandlerInterface<Note>
       cmd.Parameters.AddWithValue("@content", cont);
       cmd.Parameters.AddWithValue("@id", id);
       cmd.ExecuteNonQuery(); 
+      mySqlConnection.Close();
    }
 
    public void updateEntryTitle(int id, string title)
@@ -107,6 +126,7 @@ public class SQLCustomHandler : SQLCustomHandlerInterface<Note>
       cmd.Parameters.AddWithValue("@content", title);
       cmd.Parameters.AddWithValue("@id", id);
       cmd.ExecuteNonQuery();     
+      mySqlConnection.Close();
    }
 
    public void deleteEntry(int id)
@@ -117,5 +137,6 @@ public class SQLCustomHandler : SQLCustomHandlerInterface<Note>
       MySqlCommand cmd = new MySqlCommand(query, mySqlConnection);
       cmd.Parameters.AddWithValue("@id", id);
       cmd.ExecuteNonQuery();
+      mySqlConnection.Close();
    }
 }

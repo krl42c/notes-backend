@@ -50,4 +50,9 @@ public class NoteService
    {
       return getAllNotes().Last().id + 1; //Get a new id by incrementing the last one
    }
+
+   public bool exists(int id)
+   {
+      return _sqlCustomHandler.noteExists(id);
+   }
 }

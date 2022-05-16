@@ -1,33 +1,35 @@
-﻿using System.Text.Json;
+﻿using System.Net;
+using System.Text.Json;
+using System.Web.Http;
 using Microsoft.AspNetCore.Mvc;
-using MySqlX.XDevAPI.Common;
 using NotesBACKEND.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace NotesBACKEND.Controllers;
 
 [ApiController]
-[Route("NotesController")]
+[Microsoft.AspNetCore.Mvc.Route("NotesController")]
 public class NoteController
 {
     private List<Note> noteList = new List<Note>(); //will load notes here through a NoteService
     private NoteService _noteService = new NoteService();
 
     // This method gets a note from NoteService
-    [HttpGet("/note/{id}")]
-    public String getNote(int id)
+    [Microsoft.AspNetCore.Mvc.HttpGet("/note/{id}")]
+    public ActionResult<Note> getNote(int id)
     {
-        //TODO: implement custom exception handler
-        try
+        if (_noteService.exists(id))
         {
-            return _noteService.getNoteById(id).ToString();
+            return _noteService.getNoteById(id);
         }
-        catch (NullReferenceException e)
-        {
-            return "Note not found";
-        }
+        var data = new { error = "No note found with given ID" };
+        return new NotFoundObjectResult(data);
     }
-  
-    [HttpGet("getAllNotes")]
+
+
+    [Microsoft.AspNetCore.Mvc.HttpGet("getAllNotes")]
     public ApiResponse<Note> getAllNotes()
     {
         var list = _noteService.getAllNotes();
@@ -37,37 +39,31 @@ public class NoteController
     }
 
 
-    [HttpPost("/note")]
-    public bool createNote(int id,string title, string content)
+    [Microsoft.AspNetCore.Mvc.HttpPost("/note")]
+    public ActionResult<Note> createNote(string title, string content)
     {
-        Note note = new Note(id, title, content);
-        try
-        {
-            _noteService.insertNote(note);
-            return true;
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e.StackTrace);
-            return false;
-        }
+        Note note = new Note(_noteService.getUniqueID(), title, content);
+        var error = new { error = "Note couldn't be created" };
+        _noteService.insertNote(note);
+        
+        if (_noteService.exists(note.id))
+            return note;
+
+        return new StatusCodeResult(StatusCodes.Status500InternalServerError);
     }
     
-    [HttpPost("/delete")]
-    public bool deleteNote(int id)
+    [Microsoft.AspNetCore.Mvc.HttpPost("/delete")]
+    public ActionResult deleteNote(int id)
     {
-        try
+        if (_noteService.exists(id))
         {
             _noteService.deleteNote(id);
-            return true;
+            return new StatusCodeResult(StatusCodes.Status200OK);
         }
-        catch (Exception e)
-        {
-            return false;
-        }
+        return new StatusCodeResult(StatusCodes.Status500InternalServerError);
     }
     
-    [HttpPost("/update/{id}")]
+    [Microsoft.AspNetCore.Mvc.HttpPost("/update/{id}")]
     public void updateNote(int id, string? content = null, string? title = null)
     {
         if(content is null)
