@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Text.Json;
+using Microsoft.AspNetCore.Mvc;
+using MySqlX.XDevAPI.Common;
 using NotesBACKEND.Services;
 
 namespace NotesBACKEND.Controllers;
@@ -26,9 +28,12 @@ public class NoteController
     }
   
     [HttpGet("getAllNotes")]
-    public List<Note> getAllNotes()
+    public ApiResponse<Note> getAllNotes()
     {
-        return _noteService.getAllNotes();
+        var list = _noteService.getAllNotes();
+        var serialize = JsonSerializer.Serialize(list);
+        var model = new ApiResponse<Note>(200,list.Count, list);
+        return model;
     }
 
 

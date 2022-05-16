@@ -48,6 +48,6 @@ public class NoteService
 
    public int getUniqueID()
    {
-      return getAllNotes().Last().getId() + 1; //Get a new id by incrementing the last one
+      return getAllNotes().Last().id + 1; //Get a new id by incrementing the last one
    }
 }

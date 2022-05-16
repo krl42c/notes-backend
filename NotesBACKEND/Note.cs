@@ -2,9 +2,9 @@
 
 public class Note
 {
-   private int id { get; }
-   private String title { get; set; }
-   private String content { get; set; }
+   public int id { get; }
+   public String title { get; set; } 
+   public String content { get; set; }
 
 
    public Note(int id, string title, string content)
@@ -21,18 +21,4 @@ public class Note
              "Conntent" + content;
    }
 
-   public String getContent()
-   {
-      return content;
-   }
-
-   public String getTitle()
-   {
-      return title;
-   }
-
-   public int getId()
-   {
-      return id;
-   }
 }

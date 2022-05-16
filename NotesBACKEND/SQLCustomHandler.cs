@@ -11,7 +11,17 @@ public class SQLCustomHandler : SQLCustomHandlerInterface<Note>
    
    public SQLCustomHandler()
    {
-      string connString = "server=localhost;user=root;database=notesapp;port=3306;password=karolprueba"; //server=localhost;user=root;database=notesapp;port=3306;password=*******
+      string connString;
+      DbAuth? dbAuth = JsonFileReader.readFile<DbAuth>("dbConfig.json");
+      if (dbAuth is not null)
+      {
+         connString = "server=" + dbAuth.server + ";user=" + dbAuth.user + ";database=" + dbAuth.database + ";port=" +
+                      dbAuth.port + ";password=" + dbAuth.password;
+      }
+      else
+      {
+         throw new Exception();
+      }
       mySqlConnection = new MySqlConnection(connString);
    }
    
@@ -60,9 +70,9 @@ public class SQLCustomHandler : SQLCustomHandlerInterface<Note>
       
       MySqlCommand cmd = new MySqlCommand(query, mySqlConnection);
 
-      cmd.Parameters.AddWithValue("@id",cont.getId());
-      cmd.Parameters.AddWithValue("@title", cont.getTitle());
-      cmd.Parameters.AddWithValue("@content", cont.getContent());
+      cmd.Parameters.AddWithValue("@id",cont.id);
+      cmd.Parameters.AddWithValue("@title", cont.title);
+      cmd.Parameters.AddWithValue("@content", cont.content);
       
       cmd.ExecuteNonQuery();
    }
@@ -73,7 +83,7 @@ public class SQLCustomHandler : SQLCustomHandlerInterface<Note>
       string query = "delete from notes where id=@id";
       
       MySqlCommand cmd = new MySqlCommand(query, mySqlConnection);
-      cmd.Parameters.AddWithValue("@id", cont.getId());
+      cmd.Parameters.AddWithValue("@id", cont.id);
       cmd.ExecuteNonQuery();
    }
 
