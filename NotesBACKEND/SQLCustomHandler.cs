@@ -11,7 +11,7 @@ public class SQLCustomHandler : SQLCustomHandlerInterface<Note>
    
    public SQLCustomHandler()
    {
-      string connString = "CONN STRING"; //server=localhost;user=root;database=notesapp;port=3306;password=*******
+      string connString = "CONNSTRING"; //server=localhost;user=root;database=notesapp;port=3306;password=*******
       mySqlConnection = new MySqlConnection(connString);
    }
    
@@ -75,6 +75,28 @@ public class SQLCustomHandler : SQLCustomHandlerInterface<Note>
       MySqlCommand cmd = new MySqlCommand(query, mySqlConnection);
       cmd.Parameters.AddWithValue("@id", cont.getId());
       cmd.ExecuteNonQuery();
+   }
+
+   public void updateEntryContent(int id, string cont)
+   {
+      mySqlConnection.Open();
+      string query = "update notes set content=@content where id=@id";
+
+      MySqlCommand cmd = new MySqlCommand(query, mySqlConnection);
+      cmd.Parameters.AddWithValue("@content", cont);
+      cmd.Parameters.AddWithValue("@id", id);
+      cmd.ExecuteNonQuery(); 
+   }
+
+   public void updateEntryTitle(int id, string title)
+   {
+      mySqlConnection.Open();
+      string query = "update notes set content=@content where id=@id";
+
+      MySqlCommand cmd = new MySqlCommand(query, mySqlConnection);
+      cmd.Parameters.AddWithValue("@content", title);
+      cmd.Parameters.AddWithValue("@id", id);
+      cmd.ExecuteNonQuery();     
    }
 
    public void deleteEntry(int id)

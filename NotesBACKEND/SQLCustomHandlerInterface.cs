@@ -12,4 +12,5 @@ public interface SQLCustomHandlerInterface<T>
 
    public void deleteEntry(T cont);
 
+
 }

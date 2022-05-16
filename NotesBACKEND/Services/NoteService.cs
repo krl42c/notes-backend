@@ -4,9 +4,8 @@ namespace NotesBACKEND.Services;
 
 public class NoteService
 {
-   // TODO: implementing db connection here for now, probably should move to another class and leave this free, will do later
    private SQLCustomHandler _sqlCustomHandler;
-
+   
    public NoteService()
    {
       _sqlCustomHandler = new SQLCustomHandler();
@@ -35,5 +34,15 @@ public class NoteService
    public void deleteNote(int id)
    {
       _sqlCustomHandler.deleteEntry(id);
+   }
+
+   public void updateContent(int id, string content)
+   {
+      _sqlCustomHandler.updateEntryContent(id,content);
+   }
+
+   public void updateTitle(int id, string title)
+   {
+      _sqlCustomHandler.updateEntryTitle(id, title);
    }
 }

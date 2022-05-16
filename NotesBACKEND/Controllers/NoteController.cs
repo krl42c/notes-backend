@@ -45,13 +45,17 @@ public class NoteController
     {
         _noteService.deleteNote(id);
     }
-/*
-    public void updateNote(int id, string content = null, string title = null)
+    
+    [HttpPost("/update/{id}")]
+    public void updateNote(int id, string? content = null, string? title = null)
     {
         //TODO: implement NoteService.updateNoteById(id, ?content, ?title)
+        if(content is null)
+            _noteService.updateTitle(id, title);
+        else
+            _noteService.updateContent(id, content);
         
     } 
-    */
 }
 
 
