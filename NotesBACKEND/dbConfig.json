@@ -3,5 +3,5 @@
   "user" : "root",
   "database" : "notesapp",
   "port" : 3306,
-  "password" : "karolprueba"
+  "password" : ""
 }
